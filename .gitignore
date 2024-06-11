@@ -1,0 +1,27 @@
+# 모든 파일을 기본적으로 무시
+*
+
+# 예외 처리할 파일들
+!.gitignore
+!*.sln
+!*.vcxproj
+!*.vcxproj.filters
+!*.vcxproj.user
+!*.h
+!*.cpp
+!*.txt
+!*.JPG
+!*.png
+!*.hlsl
+
+# 특정 폴더 내부의 파일 예외 처리
+!**/
+!**/**/*.sln
+!**/**/*.vcxproj
+!**/**/*.vcxproj.filters
+!**/**/*.vcxproj.user
+!**/**/*.h
+!**/**/*.cpp
+
+# .vs 폴더는 무시
+**/.vs/

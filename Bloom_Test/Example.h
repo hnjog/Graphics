@@ -295,11 +295,26 @@ public:
 
 		//image.GaussianBlur5();
 
+		// 여담
+		// 메모리 매핑
+		// map : 파일 or 디바이스 를 프로세스의 '가상 주소 공간'에 매핑
+		// (메모리 매핑 file I/O를 통해 수행)
+		// unmap : 매핑된 메모리 영역을 해제
+		// 
+		// 가상 메모리
+		// map : 가상 메모리 시스템에서, 가상 주소를 '물리적 메모리 주소'에 매핑 (page Table로 관리)
+		// unmap : 가상 주소와 물리 주소간 매핑 해제
+
 		// 이미지의 내용을 GPU 메모리로 복사
+		// CPU의 데이터(메모리 : RAM) 을 GPU에 보내는 방식
+		// GPU의 메모리는 VRAM으로 '그래픽카드' 내부에 존재한다
 		D3D11_MAPPED_SUBRESOURCE ms;
+		// GPU 리소스를 CPU가 접근할 수 있도록 메모리 매핑
 		deviceContext->Map(canvasTexture, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
 		//memcpy(ms.pData, pixels.data(), pixels.size() * sizeof(Vec4));
+		// RAM -> VRAM으로 복사하기 위하 memcpy 사용
 		memcpy(ms.pData, image.pixels.data(), image.pixels.size() * sizeof(Vec4));
+		// 매핑 해제하여 다시 GPU가 접근할 수 있도록 함
 		deviceContext->Unmap(canvasTexture, NULL);
 	}
 

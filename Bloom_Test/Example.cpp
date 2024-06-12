@@ -1,5 +1,6 @@
 ﻿#include "Example.h"
 
+// Open Mp : 하드웨어 가속 (멀티스레딩)
 #include <omp.h>
 
 #define STB_IMAGE_IMPLEMENTATION

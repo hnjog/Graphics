@@ -72,6 +72,24 @@ public:
 
 		//image.Bloom(0.3f, 1000, 1.0f);// image_1
 
+		// Image 밝게
+		// pixel 내부의 rgb 값을 증가 (1에 가까울 수록 밝아진다)
+		//for (auto& pixel : image.pixels)
+		//{
+		//	pixel.v[0] *= 1.2f;
+		//	pixel.v[1] *= 1.2f;
+		//	pixel.v[2] *= 1.2f;
+		//}
+
+		// '밝게' 하였을 때, 색이 일부 변하지 않는 경우를 수정하기
+		// 미세한 값을 더하여 0.0f가 아니게 한다
+		for (auto& pixel : image.pixels)
+		{
+			pixel.v[0] += 1e-2f;
+			pixel.v[1] += 1e-2f;
+			pixel.v[2] += 1e-2f;
+		}
+
 		const auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
 
 		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_time).count() / 1000.0 << " sec" << std::endl;
@@ -294,6 +312,40 @@ public:
 		//image.Blur(7);
 
 		//image.GaussianBlur5();
+
+		// 점점 어두워지는 연출
+		//for (auto& pixel : image.pixels)
+		//{
+		//	pixel.v[0] = std::clamp(pixel.v[0] * 0.9f, 0.0f, 1.0f);
+		//	pixel.v[1] = std::clamp(pixel.v[1] * 0.9f, 0.0f, 1.0f);
+		//	pixel.v[2] = std::clamp(pixel.v[2] * 0.9f, 0.0f, 1.0f);
+		//}
+
+		// 반반
+		// 2 중 for문으로 index를 체크할 때 할 수 있는 방식
+		for (int i = 0; i < image.height; i++)
+		{
+			for (int j = 0; j < image.width; j++)
+			{
+				const int idx = j + image.width * i;
+
+				if (j > image.width / 2)
+				{
+					// 너무 밝아도 약간 '선'같은게 보이는 경우가 있는데
+					// 맨 처음 불러올 때 아예 0.0 인 경우가 존재하기에 발생
+					image.pixels[idx].v[0] = std::clamp(image.pixels[idx].v[0] * 1.1f, 0.0f, 1.0f);
+					image.pixels[idx].v[1] = std::clamp(image.pixels[idx].v[1] * 1.1f, 0.0f, 1.0f);
+					image.pixels[idx].v[2] = std::clamp(image.pixels[idx].v[2] * 1.1f, 0.0f, 1.0f);
+				}
+				else
+				{
+					image.pixels[idx].v[0] = std::clamp(image.pixels[idx].v[0] * 0.9f, 0.0f, 1.0f);
+					image.pixels[idx].v[1] = std::clamp(image.pixels[idx].v[1] * 0.9f, 0.0f, 1.0f);
+					image.pixels[idx].v[2] = std::clamp(image.pixels[idx].v[2] * 0.9f, 0.0f, 1.0f);
+				}
+				
+			}
+		}
 
 		// 여담
 		// 메모리 매핑

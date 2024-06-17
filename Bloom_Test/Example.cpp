@@ -72,9 +72,15 @@ void Image::BoxBlur5()
 	std::vector<Vec4> pixelsBuffer(this->pixels.size()); // 사본 복사
 
 	/*
+		Kernel : 이미지 처리에서 특정 연산을 수행하기 위한 '행렬'(matrix)
+	*/
+
+	/*
 	* Separable convolution
 	* 한 번에 2차원 Kernel을 적용하는 대신에 1차원 Kernel을 두 번 적용
 	* 이해하기 쉽고 효율적이다.
+	* 
+	* pixel 의 좌우 4칸, 상하 4칸을 적용 (대각선 x)
 	*/
 
 	// 가로 방향 (x 방향)
@@ -85,6 +91,18 @@ void Image::BoxBlur5()
 		{
 			// 주변 픽셀들의 색을 평균내어서 (i, j)에 있는 픽셀의 색을 변경
 			// this->pixels로부터 읽어온 값들을 평균내어서 pixelsBuffer의 값들을 바꾸기
+
+			Vec4 tempSum{ 0.0f,0.0f,0.0f,1.0f };
+			for (int k = -2; k <= 2; k++)
+			{
+				Vec4& pixel = GetPixel(i + k, j);
+				tempSum.v[0] += pixel.v[0];
+				tempSum.v[1] += pixel.v[1];
+				tempSum.v[2] += pixel.v[2];
+			}
+			pixelsBuffer[i + j * this->width].v[0] = (tempSum.v[0] * 0.2f);
+			pixelsBuffer[i + j * this->width].v[1] = (tempSum.v[1] * 0.2f);
+			pixelsBuffer[i + j * this->width].v[2] = (tempSum.v[2] * 0.2f);
 		}
 	}
 
@@ -101,6 +119,17 @@ void Image::BoxBlur5()
 		{
 			// 주변 픽셀들의 색을 평균내어서 (i, j)에 있는 픽셀의 색을 변경
 			// this->pixels로부터 읽어온 값들을 평균내어서 pixelsBuffer의 값들을 바꾸기
+			Vec4 tempSum{ 0.0f,0.0f,0.0f,1.0f };
+			for (int k = -2; k <= 2; k++)
+			{
+				Vec4& pixel = GetPixel(i,j + k);
+				tempSum.v[0] += pixel.v[0];
+				tempSum.v[1] += pixel.v[1];
+				tempSum.v[2] += pixel.v[2];
+			}
+			pixelsBuffer[i + j * this->width].v[0] = (tempSum.v[0] * 0.2f);
+			pixelsBuffer[i + j * this->width].v[1] = (tempSum.v[1] * 0.2f);
+			pixelsBuffer[i + j * this->width].v[2] = (tempSum.v[2] * 0.2f);
 		}
 	}
 

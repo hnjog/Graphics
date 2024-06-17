@@ -47,7 +47,7 @@ public:
 	Example(HWND window, int width, int height)
 	{
 		// 이미지 읽어들이기
-		image.ReadFromFile("image_1.jpg"); // 컴퓨터 속도가 느리다면 "image_1_360.jpg" 사용
+		image.ReadFromFile("image_1_360.jpg"); // 컴퓨터 속도가 느리다면 "image_1_360.jpg" 사용
 
 		// 시간 측정
 		const auto start_time = std::chrono::high_resolution_clock::now();
@@ -64,8 +64,8 @@ public:
 		* 여기서 사용하는 방법은 이해하기 더 쉬운 Separable convolution 입니다.
 		*/
 
-		//for(int i = 0; i < 100; i++)
-		//	image.BoxBlur5();
+		for(int i = 0; i < 100; i++)
+			image.BoxBlur5();
 		
 		//for (int i = 0; i < 100; i++)
 		//	image.GaussianBlur5();
@@ -83,12 +83,12 @@ public:
 
 		// '밝게' 하였을 때, 색이 일부 변하지 않는 경우를 수정하기
 		// 미세한 값을 더하여 0.0f가 아니게 한다
-		for (auto& pixel : image.pixels)
-		{
-			pixel.v[0] += 1e-2f;
-			pixel.v[1] += 1e-2f;
-			pixel.v[2] += 1e-2f;
-		}
+		//for (auto& pixel : image.pixels)
+		//{
+		//	pixel.v[0] += 1e-2f;
+		//	pixel.v[1] += 1e-2f;
+		//	pixel.v[2] += 1e-2f;
+		//}
 
 		const auto elapsed_time = std::chrono::high_resolution_clock::now() - start_time;
 
@@ -323,29 +323,29 @@ public:
 
 		// 반반
 		// 2 중 for문으로 index를 체크할 때 할 수 있는 방식
-		for (int i = 0; i < image.height; i++)
-		{
-			for (int j = 0; j < image.width; j++)
-			{
-				const int idx = j + image.width * i;
+		//for (int i = 0; i < image.height; i++)
+		//{
+		//	for (int j = 0; j < image.width; j++)
+		//	{
+		//		const int idx = j + image.width * i;
 
-				if (j > image.width / 2)
-				{
-					// 너무 밝아도 약간 '선'같은게 보이는 경우가 있는데
-					// 맨 처음 불러올 때 아예 0.0 인 경우가 존재하기에 발생
-					image.pixels[idx].v[0] = std::clamp(image.pixels[idx].v[0] * 1.1f, 0.0f, 1.0f);
-					image.pixels[idx].v[1] = std::clamp(image.pixels[idx].v[1] * 1.1f, 0.0f, 1.0f);
-					image.pixels[idx].v[2] = std::clamp(image.pixels[idx].v[2] * 1.1f, 0.0f, 1.0f);
-				}
-				else
-				{
-					image.pixels[idx].v[0] = std::clamp(image.pixels[idx].v[0] * 0.9f, 0.0f, 1.0f);
-					image.pixels[idx].v[1] = std::clamp(image.pixels[idx].v[1] * 0.9f, 0.0f, 1.0f);
-					image.pixels[idx].v[2] = std::clamp(image.pixels[idx].v[2] * 0.9f, 0.0f, 1.0f);
-				}
-				
-			}
-		}
+		//		if (j > image.width / 2)
+		//		{
+		//			// 너무 밝아도 약간 '선'같은게 보이는 경우가 있는데
+		//			// 맨 처음 불러올 때 아예 0.0 인 경우가 존재하기에 발생
+		//			image.pixels[idx].v[0] = std::clamp(image.pixels[idx].v[0] * 1.1f, 0.0f, 1.0f);
+		//			image.pixels[idx].v[1] = std::clamp(image.pixels[idx].v[1] * 1.1f, 0.0f, 1.0f);
+		//			image.pixels[idx].v[2] = std::clamp(image.pixels[idx].v[2] * 1.1f, 0.0f, 1.0f);
+		//		}
+		//		else
+		//		{
+		//			image.pixels[idx].v[0] = std::clamp(image.pixels[idx].v[0] * 0.9f, 0.0f, 1.0f);
+		//			image.pixels[idx].v[1] = std::clamp(image.pixels[idx].v[1] * 0.9f, 0.0f, 1.0f);
+		//			image.pixels[idx].v[2] = std::clamp(image.pixels[idx].v[2] * 0.9f, 0.0f, 1.0f);
+		//		}
+		//		
+		//	}
+		//}
 
 		// 여담
 		// 메모리 매핑

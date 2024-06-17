@@ -64,11 +64,11 @@ public:
 		* 여기서 사용하는 방법은 이해하기 더 쉬운 Separable convolution 입니다.
 		*/
 
-		for(int i = 0; i < 100; i++)
-			image.BoxBlur5();
+		/*for(int i = 0; i < 100; i++)
+			image.BoxBlur5();*/
 		
-		//for (int i = 0; i < 100; i++)
-		//	image.GaussianBlur5();
+		for (int i = 0; i < 100; i++)
+			image.GaussianBlur5();
 
 		//image.Bloom(0.3f, 1000, 1.0f);// image_1
 

@@ -67,10 +67,10 @@ public:
 		/*for(int i = 0; i < 100; i++)
 			image.BoxBlur5();*/
 		
-		for (int i = 0; i < 100; i++)
-			image.GaussianBlur5();
+		/*for (int i = 0; i < 100; i++)
+			image.GaussianBlur5();*/
 
-		//image.Bloom(0.3f, 1000, 1.0f);// image_1
+		image.Bloom(0.1f, 100, 0.5f);// image_1
 
 		// Image 밝게
 		// pixel 내부의 rgb 값을 증가 (1에 가까울 수록 밝아진다)

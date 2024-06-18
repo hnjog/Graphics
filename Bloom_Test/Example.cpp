@@ -209,19 +209,27 @@ void Image::Bloom(const float& th, const int& numRepeat, const float& weight)
 	* https://en.wikipedia.org/wiki/Relative_luminance
 	* Relative Luminance Y = 0.2126*R + 0.7152*G + 0.0722*B
 	*/
-	for (int j = 0; j < height; j ++)
+	for (int j = 0; j < height; j++)
+	{
 		for (int i = 0; i < width; i++)
 		{
-
-
+			// getPixel이 더 쉽다
+			int idx = i + j * this->height;
+			float luminace = this->pixels[idx].v[0] * 0.2126f + 0.7152f * this->pixels[idx].v[1] + 0.0722f * this->pixels[idx].v[2];
+			if (luminace < th)
+			{
+				this->pixels[idx].v[0] = 0.f;
+				this->pixels[idx].v[1] = 0.f;
+				this->pixels[idx].v[2] = 0.f;
+			}
 		}
-
+	}
 	// 여기서 Blur하지 않고 결과 확인
 
 	// 밝은 부분만 Blur 
 	for (int i = 0; i < numRepeat; i++)
 	{
-		
+		this->GaussianBlur5();
 	}
 
 	// 여기서 또 한 번 결과 확인
@@ -229,7 +237,9 @@ void Image::Bloom(const float& th, const int& numRepeat, const float& weight)
 	// 밝은 부분만 Blur한 것과 원본 이미지를 더하기 (밝은 부분 Blur에 weight 곱해서 강도 조절)
 	for (int i = 0; i < pixelsBackup.size(); i++)
 	{
-		
-
+		// 안전하게 clamp 사용하기
+		this->pixels[i].v[0] = std::clamp(this->pixels[i].v[0] + pixelsBackup[i].v[0] * weight, 0.0f, 1.0f);
+		this->pixels[i].v[1] = std::clamp(this->pixels[i].v[1] + pixelsBackup[i].v[1] * weight, 0.0f, 1.0f);
+		this->pixels[i].v[2] = std::clamp(this->pixels[i].v[2] + pixelsBackup[i].v[2] * weight,0.0f,1.0f);
 	}
 }

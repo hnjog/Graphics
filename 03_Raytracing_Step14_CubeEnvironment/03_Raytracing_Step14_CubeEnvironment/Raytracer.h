@@ -26,47 +26,47 @@ namespace hlab
 		Raytracer(const int& width, const int& height)
 			: width(width), height(height)
 		{
-			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 1.5f), 1.0f);
+			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 2.5f), 1.5f);
 
 			sphere1->amb = vec3(0.2f);
-			sphere1->dif = vec3(0.0f, 0.0f, 1.0f);
+			sphere1->dif = vec3(1.0f, 0.0f, 0.0f);
 			sphere1->spec = vec3(0.0f);
 			sphere1->alpha = 50.0f;
 			sphere1->reflection = 0.0f;
-			sphere1->transparency = 1.0f;
+			sphere1->transparency = 0.0f;
 
 			objects.push_back(sphere1);
 
 			auto groundTexture = std::make_shared<Texture>("shadertoy_abstract1.jpg");
 
 			auto ground = make_shared<Square>(vec3(-10.0f, -1.5f, 0.0f), vec3(-10.0f, -1.5f, 10.0f), vec3(10.0f, -1.5f, 10.0f), vec3(10.0f, -1.5f, 0.0f),
-				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+				vec2(0.0f, 0.0f), vec2(5.0f, 0.0f), vec2(5.0f, 5.0f), vec2(0.0f, 5.0f));
 
-			ground->amb = vec3(1.0f);
-			ground->dif = vec3(1.0f);
+			ground->amb = vec3(0.2f);
+			ground->dif = vec3(0.8f);
 			ground->spec = vec3(1.0f);
 			ground->alpha = 10.0f;
-			ground->reflection = 0.0f;
+			ground->reflection = 0.5f;
 			ground->ambTexture = groundTexture;
 			ground->difTexture = groundTexture;
 
 			objects.push_back(ground);
 
 			auto squareTexture = std::make_shared<Texture>("../SaintPetersBasilica/posz_blurred.jpg");
-			auto square = make_shared<Square>(vec3(-10.0f, 10.0f, 10.0f), vec3(10.0f, 10.0f, 10.0f), vec3(10.0f, -10.0f, 10.0f), vec3(-10.0f, -10.0f, 10.0f),
+			auto square = make_shared<Square>(vec3(-20.0f, 10.0f, 10.0f), vec3(20.0f, 10.0f, 10.0f), vec3(20.0f, -10.0f, 10.0f), vec3(-20.0f, -10.0f, 10.0f),
 				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
 
 			square->amb = vec3(1.0f);
 			square->dif = vec3(0.0f);
 			square->spec = vec3(0.0f);
-			square->alpha = 10.0f;
+			square->alpha = 50.0f;
 			square->reflection = 0.0f;
 			square->ambTexture = squareTexture;
 			square->difTexture = squareTexture;
 
 			objects.push_back(square);
 
-			light = Light{ {0.0f, 0.3f, -0.5f} }; // 화면 뒷쪽
+			light = Light{ {0.0f, 1.0f, 0.2f} };
 		}
 
 		Hit FindClosestCollision(Ray& ray)

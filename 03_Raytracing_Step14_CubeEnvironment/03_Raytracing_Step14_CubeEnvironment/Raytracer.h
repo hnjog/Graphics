@@ -28,12 +28,12 @@ namespace hlab
 		{
 			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 2.5f), 1.5f);
 
-			sphere1->amb = vec3(0.2f);
+			sphere1->amb = vec3(0.5f);
 			sphere1->dif = vec3(1.0f, 0.0f, 0.0f);
-			sphere1->spec = vec3(0.0f);
+			sphere1->spec = vec3(1.0f);
 			sphere1->alpha = 50.0f;
-			sphere1->reflection = 0.0f;
-			sphere1->transparency = 0.0f;
+			sphere1->reflection = 0.5f;
+			sphere1->transparency = 0.5f;
 
 			objects.push_back(sphere1);
 
@@ -66,7 +66,7 @@ namespace hlab
 
 			objects.push_back(square);
 
-			light = Light{ {0.0f, 1.0f, 0.2f} };
+			light = Light{ {0.0f, 1.0f, -1.2f} };
 		}
 
 		Hit FindClosestCollision(Ray& ray)

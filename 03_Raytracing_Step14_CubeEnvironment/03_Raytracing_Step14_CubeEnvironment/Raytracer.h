@@ -26,14 +26,14 @@ namespace hlab
 		Raytracer(const int& width, const int& height)
 			: width(width), height(height)
 		{
-			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 2.5f), 1.5f);
+			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 4.0f), 1.5f);
 
-			sphere1->amb = vec3(0.5f);
+			sphere1->amb = vec3(0.3f);
 			sphere1->dif = vec3(1.0f, 0.0f, 0.0f);
 			sphere1->spec = vec3(1.0f);
 			sphere1->alpha = 50.0f;
-			sphere1->reflection = 0.5f;
-			sphere1->transparency = 0.5f;
+			sphere1->reflection = 0.3f;
+			sphere1->transparency = 0.1f;
 
 			objects.push_back(sphere1);
 
@@ -53,8 +53,53 @@ namespace hlab
 			objects.push_back(ground);
 
 			auto squareTexture = std::make_shared<Texture>("../SaintPetersBasilica/posz_blurred.jpg");
-			auto square = make_shared<Square>(vec3(-20.0f, 10.0f, 10.0f), vec3(20.0f, 10.0f, 10.0f), vec3(20.0f, -10.0f, 10.0f), vec3(-20.0f, -10.0f, 10.0f),
+			auto squareTexture2 = std::make_shared<Texture>("../SaintPetersBasilica/negz_blurred.jpg");
+			auto squareTexture3 = std::make_shared<Texture>("../SaintPetersBasilica/posy_blurred.jpg");
+			auto squareTexture4 = std::make_shared<Texture>("../SaintPetersBasilica/negy_blurred.jpg");
+			auto squareTexture5 = std::make_shared<Texture>("../SaintPetersBasilica/posx_blurred.jpg");
+			auto squareTexture6 = std::make_shared<Texture>("../SaintPetersBasilica/negx_blurred.jpg");
+
+			auto square = make_shared<Square>(vec3(-60.0f, 30.0f, 30.0f), vec3(60.0f, 30.0f, 30.0f), vec3(60.0f, -30.0f, 30.0f), vec3(-60.0f, -30.0f, 30.0f),
 				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f));
+
+			auto square2 = make_shared<Square>(
+				vec3(-60.0f, -30.0f, -30.0f), vec3(60.0f, -30.0f, -30.0f),
+				vec3(60.0f, 30.0f, -30.0f), vec3(-60.0f, 30.0f, -30.0f),
+				vec2(0.0f, 1.0f), vec2(1.0f, 1.0f), vec2(1.0f, 0.0f), vec2(0.0f, 0.0f)
+			);
+
+			auto square3 = make_shared<Square>(
+				vec3(-60.0f, 30.0f, -30.0f), vec3(60.0f, 30.0f, -30.0f),
+				vec3(60.0f, 30.0f, 30.0f), vec3(-60.0f, 30.0f, 30.0f),
+				vec2(0.0f, 1.0f), vec2(1.0f, 1.0f), vec2(1.0f, 0.0f), vec2(0.0f, 0.0f)
+			);
+
+
+			auto square4 = make_shared<Square>(
+				vec3(-60.0f, -30.0f, 30.0f), vec3(60.0f, -30.0f, 30.0f),
+				vec3(60.0f, -30.0f, -30.0f), vec3(-60.0f, -30.0f, -30.0f),
+				vec2(0.0f, 1.0f), vec2(1.0f, 1.0f), vec2(1.0f, 0.0f), vec2(0.0f, 0.0f)
+			);
+
+			auto square5 = make_shared<Square>(
+				vec3(-60.0f, 30.0f, -30.0f),  // 좌상
+				vec3(-60.0f, 30.0f, 30.0f),   // 우상
+				vec3(-60.0f, -30.0f, 30.0f),  // 우하
+				vec3(-60.0f, -30.0f, -30.0f), // 좌하
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f),
+				vec2(1.0f, 1.0f), vec2(0.0f, 1.0f)
+			);
+
+
+			auto square6 = make_shared<Square>(
+				vec3(60.0f, 30.0f, 30.0f),    // 좌상
+				vec3(60.0f, 30.0f, -30.0f),   // 우상
+				vec3(60.0f, -30.0f, -30.0f),  // 우하
+				vec3(60.0f, -30.0f, 30.0f),   // 좌하
+				vec2(0.0f, 0.0f), vec2(1.0f, 0.0f),
+				vec2(1.0f, 1.0f), vec2(0.0f, 1.0f)
+			);
+
 
 			square->amb = vec3(1.0f);
 			square->dif = vec3(0.0f);
@@ -64,7 +109,52 @@ namespace hlab
 			square->ambTexture = squareTexture;
 			square->difTexture = squareTexture;
 
+			square2->amb = vec3(1.0f);
+			square2->dif = vec3(0.0f);
+			square2->spec = vec3(0.0f);
+			square2->alpha = 50.0f;
+			square2->reflection = 0.0f;
+			square2->ambTexture = squareTexture2;
+			square2->difTexture = squareTexture2;
+
+			square3->amb = vec3(1.0f);
+			square3->dif = vec3(0.0f);
+			square3->spec = vec3(0.0f);
+			square3->alpha = 50.0f;
+			square3->reflection = 0.0f;
+			square3->ambTexture = squareTexture3;
+			square3->difTexture = squareTexture3;
+
+			square4->amb = vec3(1.0f);
+			square4->dif = vec3(0.0f);
+			square4->spec = vec3(0.0f);
+			square4->alpha = 50.0f;
+			square4->reflection = 0.0f;
+			square4->ambTexture = squareTexture4;
+			square4->difTexture = squareTexture4;
+
+			square5->amb = vec3(1.0f);
+			square5->dif = vec3(0.0f);
+			square5->spec = vec3(0.0f);
+			square5->alpha = 50.0f;
+			square5->reflection = 0.0f;
+			square5->ambTexture = squareTexture5;
+			square5->difTexture = squareTexture5;
+
+			square6->amb = vec3(1.0f);
+			square6->dif = vec3(0.0f);
+			square6->spec = vec3(0.0f);
+			square6->alpha = 50.0f;
+			square6->reflection = 0.0f;
+			square6->ambTexture = squareTexture6;
+			square6->difTexture = squareTexture6;
+
 			objects.push_back(square);
+			objects.push_back(square2);
+			objects.push_back(square3);
+			objects.push_back(square4);
+			objects.push_back(square5);
+			objects.push_back(square6);
 
 			light = Light{ {0.0f, 1.0f, -1.2f} };
 		}

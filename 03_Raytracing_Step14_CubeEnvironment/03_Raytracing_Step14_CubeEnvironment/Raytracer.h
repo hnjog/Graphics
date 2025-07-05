@@ -167,7 +167,7 @@ namespace hlab
 			objects.push_back(square5);
 			objects.push_back(square6);
 
-			light = Light{ {0.0f, 1.0f, -1.2f} };
+			light = Light{ {0.0f, 2.0f, -1.2f} };
 		}
 
 		Hit FindClosestCollision(Ray& ray)

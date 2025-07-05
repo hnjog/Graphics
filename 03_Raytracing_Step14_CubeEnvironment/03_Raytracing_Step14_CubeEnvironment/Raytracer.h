@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Sphere.h"
 #include "Ray.h"
@@ -47,6 +47,17 @@ namespace hlab
 			sphere2->transparency = 0.1f;
 
 			objects.push_back(sphere2);
+
+			auto sphere3 = make_shared<Sphere>(vec3(-1.8f, -0.5f, 2.0f), 0.8f);
+
+			sphere3->amb = vec3(1.0f);
+			sphere3->dif = vec3(1.0f);
+			sphere3->spec = vec3(1.0f);
+			sphere3->alpha = 25.0f;
+			sphere3->reflection = 0.5f;
+			sphere3->transparency = 0.5f;
+
+			objects.push_back(sphere3);
 
 			auto groundTexture = std::make_shared<Texture>("shadertoy_abstract1.jpg");
 

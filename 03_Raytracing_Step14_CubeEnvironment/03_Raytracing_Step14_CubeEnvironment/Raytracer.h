@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Sphere.h"
 #include "Ray.h"
@@ -28,14 +28,25 @@ namespace hlab
 		{
 			auto sphere1 = make_shared<Sphere>(vec3(0.0f, -0.1f, 4.0f), 1.5f);
 
-			sphere1->amb = vec3(0.3f);
+			sphere1->amb = vec3(0.1f);
 			sphere1->dif = vec3(1.0f, 0.0f, 0.0f);
 			sphere1->spec = vec3(1.0f);
-			sphere1->alpha = 50.0f;
-			sphere1->reflection = 0.3f;
+			sphere1->alpha = 25.0f;
+			sphere1->reflection = 0.5f;
 			sphere1->transparency = 0.1f;
 
 			objects.push_back(sphere1);
+
+			auto sphere2 = make_shared<Sphere>(vec3(1.3f, -1.0f, 2.0f), 0.5f);
+
+			sphere2->amb = vec3(0.2f);
+			sphere2->dif = vec3(0.0f, 0.0f, 1.0f);
+			sphere2->spec = vec3(1.0f);
+			sphere2->alpha = 25.0f;
+			sphere2->reflection = 0.2f;
+			sphere2->transparency = 0.1f;
+
+			objects.push_back(sphere2);
 
 			auto groundTexture = std::make_shared<Texture>("shadertoy_abstract1.jpg");
 

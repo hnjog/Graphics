@@ -220,6 +220,18 @@ namespace hlab
 				const vec3 reflectDir = hit.normal * 2.0f * dot(dirToLight, hit.normal) - dirToLight;
 				const float specular = glm::pow(glm::max(glm::dot(-ray.dir, reflectDir), 0.0f), hit.obj->alpha);
 
+				Ray shadowRay = { hit.point + dirToLight * 1e-4f, dirToLight };
+				bool inShadow = false;
+
+				const auto shadowHit = FindClosestCollision(shadowRay);
+				const float lightDistance = glm::length(light.pos - hit.point);
+
+				if (shadowHit.d > 0.0f && shadowHit.d < lightDistance)
+				{
+					inShadow = true;
+				}
+
+				// Ambient (항상 적용)
 				if (hit.obj->ambTexture)
 				{
 					phongColor += hit.obj->amb * hit.obj->ambTexture->SampleLinear(hit.uv);
@@ -229,18 +241,28 @@ namespace hlab
 					phongColor += hit.obj->amb;
 				}
 
-				if (hit.obj->difTexture)
+				if (inShadow == false)
 				{
-					phongColor += diff * hit.obj->dif * hit.obj->difTexture->SampleLinear(hit.uv);
-				}
-				else
-				{
-					phongColor += diff * hit.obj->dif;
+					// Diffuse & Specular
+					const float diff = glm::max(dot(hit.normal, dirToLight), 0.0f);
+					const vec3 reflectDir = 2.0f * dot(hit.normal, dirToLight) * hit.normal - dirToLight;
+					const float specular = glm::pow(glm::max(glm::dot(-ray.dir, reflectDir), 0.0f), hit.obj->alpha);
+
+					if (hit.obj->difTexture)
+					{
+						phongColor += diff * hit.obj->dif * hit.obj->difTexture->SampleLinear(hit.uv);
+					}
+					else
+					{
+						phongColor += diff * hit.obj->dif;
+					}
+
+					phongColor += hit.obj->spec * specular;
 				}
 
-				phongColor += hit.obj->spec * specular;
-
+				// 물체 기본 색 반영 (반사/투명 제외)
 				color += phongColor * (1.0f - hit.obj->reflection - hit.obj->transparency);
+
 
 				if (hit.obj->reflection)
 				{
@@ -319,8 +341,6 @@ namespace hlab
 
 					Ray refractedRay{ hit.point + refractedDirection * 1e-4f,refractedDirection };
 					color += traceRay(refractedRay, recurseLevel - 1) * hit.obj->transparency; // 일부의 색을 가져오는 방식이기에 값을 곱해준다
-
-					// Fresnel 효과는 생략되었습니다.
 				}
 
 				return color;
